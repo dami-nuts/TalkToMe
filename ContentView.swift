@@ -46,9 +46,12 @@ struct ContentView: View {
     
     // 送信ボタン押下時のアクション
     func submit() {
-        let message = Message(id: 0, messageText: inputText, isFromUser: true)
-        messages.append(message)
-        
+        let message = Message(id: UUID(), messageText: inputText, isFromUser: true)
+        if (inputText != "") {
+            messages.append(message)
+        }
+        // 送信後にinputTextを空にして次の文字列を入力できるようにする
+        inputText = ""
     }
 }
 
