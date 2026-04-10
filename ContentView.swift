@@ -34,9 +34,10 @@ struct ContentView: View {
             HStack {
                 TextField("talk to me", text: $inputText)
                     .textFieldStyle(.roundedBorder)
-                Button(action: submit) {
-                    Image(systemName: "paperplane")
-                        .foregroundColor(Color.pink)
+                Button("", systemImage: "paperplane") {
+                    Task {
+                        await submit()
+                    }
                 }
             }
             .padding()
@@ -45,13 +46,22 @@ struct ContentView: View {
     }
     
     // 送信ボタン押下時のアクション
-    func submit() {
+    func submit() async {
         let message = Message(id: UUID(), messageText: inputText, isFromUser: true)
         if (inputText != "") {
             messages.append(message)
         }
+        // AIにメッセージ送信
+        await sendToAi()
         // 送信後にinputTextを空にして次の文字列を入力できるようにする
         inputText = ""
+    }
+    
+    func sendToAi() async {
+        let ai = GeminiAPIPractice()
+        let responce = await ai.callAPI(prompt: inputText)
+        let message = Message(id: UUID(), messageText: responce, isFromUser: false)
+        messages.append(message)
     }
 }
 
