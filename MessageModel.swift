@@ -15,7 +15,7 @@ struct Message: Identifiable{
 }
 
 // AIのAPI呼び出し
-private let apiKey = "AIzaSyAfjcXtE8ptCuOlIKfFD7LOiXAX_7Cw24w"
+private let apiKey = ""
 
 class GeminiAPIPractice {
     let model: GenerativeModel

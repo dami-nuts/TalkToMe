@@ -50,16 +50,16 @@ struct ContentView: View {
         let message = Message(id: UUID(), messageText: inputText, isFromUser: true)
         if (inputText != "") {
             messages.append(message)
+            // AIにメッセージ送信
+            await sendToAi(content: inputText)
         }
-        // AIにメッセージ送信
-        await sendToAi()
         // 送信後にinputTextを空にして次の文字列を入力できるようにする
         inputText = ""
     }
     
-    func sendToAi() async {
+    @MainActor func sendToAi(content: String) async {
         let ai = GeminiAPIPractice()
-        let responce = await ai.callAPI(prompt: inputText)
+        let responce = await ai.callAPI(prompt: content)
         let message = Message(id: UUID(), messageText: responce, isFromUser: false)
         messages.append(message)
     }
